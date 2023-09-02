@@ -1,0 +1,110 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    background-color: #fff;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Estilos para la disposición del contenido */
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.left {
+    width: 48%; /* Ancho del formulario */
+}
+
+.right {
+    width: 48%; /* Ancho de la lista de contactos */
+}
+
+/* Estilos para el formulario */
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="tel"],
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    margin-right: 10px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+/* Reducir el ancho de los campos de entrada */
+form input[type="text"],
+form input[type="email"],
+form input[type="tel"] {
+    width: calc(100% - 20px);
+}
+
+form button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para la lista de contactos */
+#contactos h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+#lista-contactos {
+    list-style-type: none;
+    padding: 0;
+}
+
+#lista-contactos li {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 3px;
+    background-color: #f9f9f9;
+}
+
+#borrar-lista {
+    background-color: #d9534f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-top: 10px;
+}
+
+#borrar-lista:hover {
+    background-color: #c9302c;
+}
