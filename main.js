@@ -23,12 +23,13 @@ document.addEventListener("DOMContentLoaded", function () {
             return; // Detener el proceso de guardar
         }
 
-        // Validación de teléfono (ejemplo: 113-240-8212)
-        const telefonoPattern = /^\d{3}-\d{3}-\d{4}$/;
-        if (telefono && !telefonoPattern.test(telefono)) {
-            Swal.fire("Error", "Por favor, ingresa un número de teléfono válido en el formato 123-456-7890.", "error");
-            return; // Detener el proceso de guardar
+    // Validación de teléfono para números solamente
+    const telefonoPattern = /^\d+$/;
+    if (telefono && !telefonoPattern.test(telefono)) {
+        Swal.fire("Error", "Por favor, ingresa solo números en el campo de teléfono.", "error");
+        return; // Detener el proceso de guardar
         }
+
 
         // Crear un objeto para el nuevo contacto
         const nuevoContacto = {
