@@ -9,8 +9,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>Formulario de Contacto</h1>
-        
+        <h1>Contacto</h1>
+        <label for="username">Coloque su usuario antes de cargar:</label>
+        <input type="text" id="username" name="username" required>
+        <button id="cargar-contactos">Mostrar Contactos del Usuario</button>
+
         <div class="content">
             <form id="formulario" class="left">
                 <label for="nombre">Nombre:</label>
@@ -26,6 +29,8 @@
                 <textarea id="mensaje" name="mensaje" rows="4" cols="50"></textarea><br><br>
 
                 <button type="button" id="guardar">Guardar</button>
+                <button id="agregarContactosAleatorios">Mostrar Ejemplo</button>
+
             </form>
 
             <div id="contactos" class="right">

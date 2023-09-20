@@ -1,0 +1,32 @@
+[
+    {
+        "nombre": "Juan Pérez",
+        "email": "juan@example.com",
+        "telefono": "123-456-7890",
+        "mensaje": "Hola, ¿cómo estás?"
+    },
+    {
+        "nombre": "Ana Gómez",
+        "email": "ana@example.com",
+        "telefono": "987-654-3210",
+        "mensaje": "Me gustaría conocer más sobre tu proyecto."
+    },
+    {
+        "nombre": "Carlos Martínez",
+        "email": "carlos@example.com",
+        "telefono": "555-555-5555",
+        "mensaje": "¡Gracias por contactarme!"
+    },
+    {
+        "nombre": "Luisa Fernández",
+        "email": "luisa@example.com",
+        "telefono": "999-999-9999",
+        "mensaje": "Estoy interesado en tus servicios."
+    },
+    {
+        "nombre": "María López",
+        "email": "maria@example.com",
+        "telefono": "777-777-7777",
+        "mensaje": "¿Puedes ayudarme con esto?"
+    }
+]

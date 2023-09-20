@@ -3,12 +3,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const listaContactos = document.getElementById("lista-contactos");
     const botonGuardar = document.getElementById("guardar");
     const botonBorrarLista = document.getElementById("borrar-lista");
+    const botonAgregarContactosAleatorios = document.getElementById("agregarContactosAleatorios");
 
-    // Comprobar si hay datos en el localStorage y cargarlos
-    const contactosGuardados = JSON.parse(localStorage.getItem("contactos")) || [];
+    const botonCargarContactos = document.getElementById("cargar-contactos");
 
-    // Cargar los contactos guardados en la lista
-    cargarContactos(contactosGuardados);
+    botonCargarContactos.addEventListener("click", function () {
+        const username = document.getElementById("username").value;
+
+        const nombreArchivo = `${username}.json`;
+
+        let contactosGuardados = JSON.parse(localStorage.getItem(nombreArchivo)) || [];
+
+        cargarContactos(contactosGuardados);
+    });
 
     botonGuardar.addEventListener("click", function () {
         const nombre = document.getElementById("nombre").value;
@@ -16,22 +23,18 @@ document.addEventListener("DOMContentLoaded", function () {
         const telefono = document.getElementById("telefono").value;
         const mensaje = document.getElementById("mensaje").value;
 
-        // Validación de email utilizando una expresión regular
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         if (!emailPattern.test(email)) {
             Swal.fire("Error", "Por favor, ingresa una dirección de correo electrónico válida.", "error");
-            return; // Detener el proceso de guardar
+            return;
         }
 
-    // Validación de teléfono para números solamente
-    const telefonoPattern = /^\d+$/;
-    if (telefono && !telefonoPattern.test(telefono)) {
-        Swal.fire("Error", "Por favor, ingresa solo números en el campo de teléfono.", "error");
-        return; // Detener el proceso de guardar
+        const telefonoPattern = /^\d+$/;
+        if (telefono && !telefonoPattern.test(telefono)) {
+            Swal.fire("Error", "Por favor, ingresa solo números en el campo de teléfono.", "error");
+            return;
         }
 
-
-        // Crear un objeto para el nuevo contacto
         const nuevoContacto = {
             nombre,
             email,
@@ -39,23 +42,23 @@ document.addEventListener("DOMContentLoaded", function () {
             mensaje
         };
 
-        // Agregar el nuevo contacto al array de contactos guardados
+        const username = document.getElementById("username").value;
+        const nombreArchivo = `${username}.json`;
+
+        let contactosGuardados = JSON.parse(localStorage.getItem(nombreArchivo)) || [];
+
         contactosGuardados.push(nuevoContacto);
 
-        // Guardar los contactos en el localStorage
-        localStorage.setItem("contactos", JSON.stringify(contactosGuardados));
+        localStorage.setItem(nombreArchivo, JSON.stringify(contactosGuardados));
 
-        // Mostrar una alerta de éxito con SweetAlert2
         Swal.fire("¡Éxito!", "El contacto se ha guardado correctamente.", "success");
 
-        // Actualizar la lista de contactos en la página con el nuevo contacto
         cargarContactos([nuevoContacto]);
 
         formulario.reset();
     });
 
     botonBorrarLista.addEventListener("click", function () {
-        // Mostrar una ventana modal de confirmación con SweetAlert2
         Swal.fire({
             title: "¿Estás seguro?",
             text: "¿Deseas borrar la lista de contactos?",
@@ -67,19 +70,38 @@ document.addEventListener("DOMContentLoaded", function () {
             cancelButtonText: "Cancelar"
         }).then((result) => {
             if (result.isConfirmed) {
-                // Borrar la lista de contactos
                 listaContactos.innerHTML = "";
 
-                // Borrar los contactos guardados en el localStorage
-                localStorage.removeItem("contactos");
+                const username = document.getElementById("username").value;
+                const nombreArchivo = `${username}.json`;
 
-                // Mostrar una alerta de éxito
+                localStorage.removeItem(nombreArchivo);
+
                 Swal.fire("¡Éxito!", "La lista de contactos se ha borrado.", "success");
             }
         });
     });
 
-    // Función para cargar los contactos en la lista
+    botonAgregarContactosAleatorios.addEventListener("click", function () {
+        const username = document.getElementById("username").value;
+        const nombreArchivo = `${username}.json`;
+
+        let contactosGuardados = JSON.parse(localStorage.getItem(nombreArchivo)) || [];
+
+        contactosGuardados.length = 0;
+
+        for (let i = 0; i < 5; i++) {
+            const contacto = generarContactoAleatorio();
+            contactosGuardados.push(contacto);
+        }
+
+        localStorage.setItem(nombreArchivo, JSON.stringify(contactosGuardados));
+
+        Swal.fire("¡Éxito!", "Se han agregado 5 contactos aleatorios adicionales.", "success");
+
+        cargarContactos(contactosGuardados);
+    });
+
     function cargarContactos(contactos) {
         listaContactos.innerHTML = "";
         contactos.forEach(function (contacto, index) {
@@ -88,7 +110,6 @@ document.addEventListener("DOMContentLoaded", function () {
             listaContactos.appendChild(nuevoContacto);
         });
 
-        // Agregar eventos para editar y eliminar contactos
         const botonesEditar = document.querySelectorAll(".editar");
         const botonesEliminar = document.querySelectorAll(".eliminar");
 
@@ -107,7 +128,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Función para editar un contacto
     function editarContacto(index, contacto) {
         Swal.fire({
             title: "Editar Contacto",
@@ -124,14 +144,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 const telefono = Swal.getPopup().querySelector("#telefono-editar").value;
                 const mensaje = Swal.getPopup().querySelector("#mensaje-editar").value;
 
-                // Validación de email
                 const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
                 if (!emailPattern.test(email)) {
                     Swal.showValidationMessage("Por favor, ingresa una dirección de correo electrónico válida.");
                 }
 
-                // Validación de teléfono (ejemplo: 113-240-8212)
-                const telefonoPattern = /^\d{3}-\d{3}-\d{4}$/;
+                const telefonoPattern = /^\d+$/;
                 if (telefono && !telefonoPattern.test(telefono)) {
                     Swal.showValidationMessage("Por favor, ingresa un número de teléfono válido en el formato 123-456-7890.");
                 }
@@ -140,21 +158,19 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                // Actualizar el contacto en el array de contactos guardados
                 contactosGuardados[index] = result.value;
 
-                // Actualizar los contactos en el localStorage
-                localStorage.setItem("contactos", JSON.stringify(contactosGuardados));
+                const username = document.getElementById("username").value;
+                const nombreArchivo = `${username}.json`;
 
-                // Recargar la lista de contactos
+                localStorage.setItem(nombreArchivo, JSON.stringify(contactosGuardados));
+
                 cargarContactos(contactosGuardados);
-
                 Swal.fire("¡Éxito!", "El contacto se ha editado correctamente.", "success");
             }
         });
     }
 
-    // Función para eliminar un contacto
     function eliminarContacto(index) {
         Swal.fire({
             title: "¿Estás seguro?",
@@ -167,18 +183,37 @@ document.addEventListener("DOMContentLoaded", function () {
             cancelButtonText: "Cancelar"
         }).then((result) => {
             if (result.isConfirmed) {
-                // Eliminar el contacto del array de contactos guardados
                 contactosGuardados.splice(index, 1);
 
-                // Actualizar los contactos en el localStorage
-                localStorage.setItem("contactos", JSON.stringify(contactosGuardados));
+                const username = document.getElementById("username").value;
+                const nombreArchivo = `${username}.json`;
 
-                // Recargar la lista de contactos
+                localStorage.setItem(nombreArchivo, JSON.stringify(contactosGuardados));
+
                 cargarContactos(contactosGuardados);
-
                 Swal.fire("¡Éxito!", "El contacto se ha eliminado correctamente.", "success");
             }
         });
     }
-});
 
+    function generarContactoAleatorio() {
+        const nombres = ["Juan", "Ana", "Carlos", "Luisa", "María"];
+        const apellidos = ["Pérez", "Gómez", "Martínez", "Fernández", "López"];
+        const emails = ["juan@example.com", "ana@example.com", "carlos@example.com", "luisa@example.com", "maria@example.com"];
+        const telefonos = ["123-456-7890", "987-654-3210", "555-555-5555", "999-999-9999", "777-777-7777"];
+        const mensajes = ["Hola, ¿cómo estás?", "Me gustaría conocer más sobre tu proyecto.", "¡Gracias por contactarme!", "Estoy interesado en tus servicios.", "¿Puedes ayudarme con esto?"];
+
+        const nombreAleatorio = nombres[Math.floor(Math.random() * nombres.length)];
+        const apellidoAleatorio = apellidos[Math.floor(Math.random() * apellidos.length)];
+        const emailAleatorio = emails[Math.floor(Math.random() * emails.length)];
+        const telefonoAleatorio = telefonos[Math.floor(Math.random() * telefonos.length)];
+        const mensajeAleatorio = mensajes[Math.floor(Math.random() * mensajes.length)];
+
+        return {
+            nombre: `${nombreAleatorio} ${apellidoAleatorio}`,
+            email: emailAleatorio,
+            telefono: telefonoAleatorio,
+            mensaje: mensajeAleatorio
+        };
+    }
+});
